@@ -1,0 +1,781 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/user/ontologies/2020/1/untitled-ontology-7#"
+     xml:base="http://www.semanticweb.org/user/ontologies/2020/1/untitled-ontology-7"
+     xmlns:untitled-ontology-7="http://www.semanticweb.org/user/ontologies/2020/1/untitled-ontology-7#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:www="http://www.bandasderock.com#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.bandasderock.com"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.bandasderock.com#Comercializada_Por -->
+
+    <owl:ObjectProperty rdf:about="http://www.bandasderock.com#Comercializada_Por">
+        <owl:inverseOf rdf:resource="http://www.bandasderock.com#Comercializadora_De"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+        <rdfs:range rdf:resource="http://www.bandasderock.com#Disquera"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bandasderock.com#Comercializadora_De -->
+
+    <owl:ObjectProperty rdf:about="http://www.bandasderock.com#Comercializadora_De">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://www.bandasderock.com#Disquera"/>
+        <rdfs:range rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bandasderock.com#Integrada_Por -->
+
+    <owl:ObjectProperty rdf:about="http://www.bandasderock.com#Integrada_Por">
+        <owl:inverseOf rdf:resource="http://www.bandasderock.com#Integrante_De"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+        <rdfs:range rdf:resource="http://www.bandasderock.com#Miembro"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bandasderock.com#Integrante_De -->
+
+    <owl:ObjectProperty rdf:about="http://www.bandasderock.com#Integrante_De">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <rdfs:range rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bandasderock.com#Representada_Por -->
+
+    <owl:ObjectProperty rdf:about="http://www.bandasderock.com#Representada_Por">
+        <owl:inverseOf rdf:resource="http://www.bandasderock.com#Representante_De"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+        <rdfs:range rdf:resource="http://www.bandasderock.com#Manager"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bandasderock.com#Representante_De -->
+
+    <owl:ObjectProperty rdf:about="http://www.bandasderock.com#Representante_De">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://www.bandasderock.com#Manager"/>
+        <rdfs:range rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.bandasderock.com#Año_de_formacion -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bandasderock.com#Año_de_formacion">
+        <rdfs:domain rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.bandasderock.com#Fecha_de_nacimiento -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bandasderock.com#Fecha_de_nacimiento">
+        <rdfs:domain rdf:resource="http://www.bandasderock.com#Persona"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.bandasderock.com#Localizacion -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bandasderock.com#Localizacion">
+        <rdfs:domain rdf:resource="http://www.bandasderock.com#Disquera"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.bandasderock.com#Nacionalidad -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bandasderock.com#Nacionalidad">
+        <rdfs:domain rdf:resource="http://www.bandasderock.com#Persona"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.bandasderock.com#Nombre -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bandasderock.com#Nombre">
+        <rdfs:domain rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+        <rdfs:domain rdf:resource="http://www.bandasderock.com#Persona"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.bandasderock.com#Pagina_web -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bandasderock.com#Pagina_web">
+        <rdfs:domain rdf:resource="http://www.bandasderock.com#Disquera"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.bandasderock.com#Banda_de_rock -->
+
+    <owl:Class rdf:about="http://www.bandasderock.com#Banda_de_rock"/>
+    
+
+
+    <!-- http://www.bandasderock.com#Disquera -->
+
+    <owl:Class rdf:about="http://www.bandasderock.com#Disquera"/>
+    
+
+
+    <!-- http://www.bandasderock.com#Manager -->
+
+    <owl:Class rdf:about="http://www.bandasderock.com#Manager">
+        <rdfs:subClassOf rdf:resource="http://www.bandasderock.com#Persona"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.bandasderock.com#Miembro -->
+
+    <owl:Class rdf:about="http://www.bandasderock.com#Miembro">
+        <rdfs:subClassOf rdf:resource="http://www.bandasderock.com#Persona"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.bandasderock.com#Persona -->
+
+    <owl:Class rdf:about="http://www.bandasderock.com#Persona"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.bandasderock.com#Alice_in_Chains -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Alice_in_Chains">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+        <www:Comercializada_Por rdf:resource="http://www.bandasderock.com#EMI_Records"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Jerry_Cantrell"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Sean_Kinney"/>
+        <www:Representada_Por rdf:resource="http://www.bandasderock.com#Nate_Diaz"/>
+        <www:Año_de_formacion rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1987</www:Año_de_formacion>
+        <www:Nacionalidad>Alice in Chains</www:Nacionalidad>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Anthony_Kiedis -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Anthony_Kiedis">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Red_Hot_Chili_Peppers"/>
+        <www:Fecha_de_nacimiento>1/11/1962</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Anthony Kiedis</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Axl_Rose -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Axl_Rose">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Guns_n_Roses"/>
+        <www:Fecha_de_nacimiento>5/8/1964</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Axl Rose</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Brock_Lesnar -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Brock_Lesnar">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Manager"/>
+        <www:Representante_De rdf:resource="http://www.bandasderock.com#System_of_a_Down"/>
+        <www:Fecha_de_nacimiento>2/3/1956</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Brock Lesnar</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Chad_Smith -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Chad_Smith">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Red_Hot_Chili_Peppers"/>
+        <www:Fecha_de_nacimiento>25/10/1961</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Chad Smith</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Chris_Cornell -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Chris_Cornell">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Soundgarden"/>
+        <www:Fecha_de_nacimiento>20/6/1964</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Chris Cornell</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#DGC_Records -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#DGC_Records">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Disquera"/>
+        <owl:sameAs rdf:resource="http://www.bandasderock.com#Interscope_Records"/>
+        <www:Comercializadora_De rdf:resource="http://www.bandasderock.com#Nirvana"/>
+        <www:Localizacion>Santa Monica, California</www:Localizacion>
+        <www:Nombre>DGC Records</www:Nombre>
+        <www:Pagina_web>http://www.interscope.com</www:Pagina_web>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Danny_Goldberg -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Danny_Goldberg">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Manager"/>
+        <www:Representante_De rdf:resource="http://www.bandasderock.com#Nirvana"/>
+        <www:Fecha_de_nacimiento>4/06/1950</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Danny Goldberg</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Daron_Malakian -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Daron_Malakian">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#System_of_a_Down"/>
+        <www:Fecha_de_nacimiento>7/8/1959</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Armenio</www:Nacionalidad>
+        <www:Nombre>Daron Malakian</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Dave_Grohl -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Dave_Grohl">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Nirvana"/>
+        <www:Fecha_de_nacimiento>14/01/1969</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Dave Grohl</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Duff_McKeagan -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Duff_McKeagan">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Guns_n_Roses"/>
+        <www:Fecha_de_nacimiento>7/7/1967</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Duff McKeagan</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#EMI_Records -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#EMI_Records">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Disquera"/>
+        <www:Comercializadora_De rdf:resource="http://www.bandasderock.com#Alice_in_Chains"/>
+        <www:Nombre>EMI Records</www:Nombre>
+        <www:Pagina_web>https://www.universalmusic.com/label/emi/</www:Pagina_web>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Eddie_Vedder -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Eddie_Vedder">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Pearl_Jam"/>
+        <www:Fecha_de_nacimiento>23/12/19</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Eddie Vedder</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Epic_Records -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Epic_Records">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Disquera"/>
+        <www:Comercializadora_De rdf:resource="http://www.bandasderock.com#Pearl_Jam"/>
+        <www:Nombre>Epic Records</www:Nombre>
+        <www:Pagina_web>https://www.epicrecords.com/</www:Pagina_web>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Fernando_Lebeis -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Fernando_Lebeis">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Manager"/>
+        <www:Representante_De rdf:resource="http://www.bandasderock.com#Guns_n_Roses"/>
+        <www:Fecha_de_nacimiento>5/3/1954</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Portugués</www:Nacionalidad>
+        <www:Nombre>Fernando Lebeis</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Flea -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Flea">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <owl:sameAs rdf:resource="http://www.bandasderock.com#Michael_Peter_Balzary"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Red_Hot_Chili_Peppers"/>
+        <www:Fecha_de_nacimiento>16/10/1962</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Flea</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Frank_Ferrer -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Frank_Ferrer">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Guns_n_Roses"/>
+        <www:Fecha_de_nacimiento>3/6/1963</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Inglés</www:Nacionalidad>
+        <www:Nombre>Frank Ferrer</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Geffen_Records -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Geffen_Records">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Disquera"/>
+        <www:Comercializadora_De rdf:resource="http://www.bandasderock.com#Guns_n_Roses"/>
+        <www:Nombre>Geffen Records</www:Nombre>
+        <www:Pagina_web>http://www.geffen.com/</www:Pagina_web>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Guns_n_Roses -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Guns_n_Roses">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Axl_Rose"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Duff_McKeagan"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Frank_Ferrer"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Saul_Hudson"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Slash"/>
+        <www:Representada_Por rdf:resource="http://www.bandasderock.com#Fernando_Lebeis"/>
+        <www:Año_de_formacion rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1985</www:Año_de_formacion>
+        <www:Nombre>Guns n Roses</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Hiro_Yamamoto -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Hiro_Yamamoto">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Soundgarden"/>
+        <www:Fecha_de_nacimiento>13/4/1961</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Japonés</www:Nacionalidad>
+        <www:Nombre>Hiro Yamamoto</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Interscope_Records -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Interscope_Records">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Disquera"/>
+        <www:Comercializadora_De rdf:resource="http://www.bandasderock.com#Nirvana"/>
+        <www:Localizacion>Santa Monica, California</www:Localizacion>
+        <www:Nombre>Interscope Records</www:Nombre>
+        <www:Pagina_web>http://www.interscope.com</www:Pagina_web>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Jason_Everman -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Jason_Everman">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Soundgarden"/>
+        <www:Fecha_de_nacimiento>16/7/1967</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Jason Everman</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Jerry_Cantrell -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Jerry_Cantrell">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Alice_in_Chains"/>
+        <www:Fecha_de_nacimiento>18/3/1966</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Jerry Cantrell</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#John_Dolmayan -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#John_Dolmayan">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#System_of_a_Down"/>
+        <www:Fecha_de_nacimiento>3/2/1961</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Armenio</www:Nacionalidad>
+        <www:Nombre>John Dolmayan</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#John_Frusciante -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#John_Frusciante">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Red_Hot_Chili_Peppers"/>
+        <www:Fecha_de_nacimiento>5/03/1970</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>John Frusciante</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Krist_Novoselic -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Krist_Novoselic">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Nirvana"/>
+        <www:Fecha_de_nacimiento>10/05/1965</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Krist Novoselic</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Kurt_Cobain -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Kurt_Cobain">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Nirvana"/>
+        <www:Fecha_de_nacimiento>20/02/1967</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Kurt Cobain</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Lindy_Goetz -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Lindy_Goetz">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Manager"/>
+        <www:Representante_De rdf:resource="http://www.bandasderock.com#Red_Hot_Chili_Peppers"/>
+        <www:Fecha_de_nacimiento>5/12/1947</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Inglés</www:Nacionalidad>
+        <www:Nombre>Lindy Goetz</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Michael_Peter_Balzary -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Michael_Peter_Balzary">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Red_Hot_Chili_Peppers"/>
+        <www:Fecha_de_nacimiento>16/10/1962</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Michael Peter Balzary</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Mike_McCready -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Mike_McCready">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Pearl_Jam"/>
+        <www:Fecha_de_nacimiento>5/4/1965</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Mike McCready</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Nate_Diaz -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Nate_Diaz">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Manager"/>
+        <www:Representante_De rdf:resource="http://www.bandasderock.com#Alice_in_Chains"/>
+        <www:Fecha_de_nacimiento>16/4/1966</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Portugués</www:Nacionalidad>
+        <www:Nombre>Nate Diaz</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Nirvana -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Nirvana">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+        <www:Comercializada_Por rdf:resource="http://www.bandasderock.com#DGC_Records"/>
+        <www:Comercializada_Por rdf:resource="http://www.bandasderock.com#Interscope_Records"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Dave_Grohl"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Krist_Novoselic"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Kurt_Cobain"/>
+        <www:Representada_Por rdf:resource="http://www.bandasderock.com#Danny_Goldberg"/>
+        <www:Año_de_formacion rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1987</www:Año_de_formacion>
+        <www:Nombre>Nirvana</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Pearl_Jam -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Pearl_Jam">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+        <www:Comercializada_Por rdf:resource="http://www.bandasderock.com#Epic_Records"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Eddie_Vedder"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Mike_McCready"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Stone_Gossard"/>
+        <www:Representada_Por rdf:resource="http://www.bandasderock.com#Rickey_Charles_Goodrich"/>
+        <www:Año_de_formacion rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1990</www:Año_de_formacion>
+        <www:Nombre>Pearl Jam</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Red_Hot_Chili_Peppers -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Red_Hot_Chili_Peppers">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+        <www:Comercializada_Por rdf:resource="http://www.bandasderock.com#Warner_Records"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Anthony_Kiedis"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Chad_Smith"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Flea"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#John_Frusciante"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Michael_Peter_Balzary"/>
+        <www:Representada_Por rdf:resource="http://www.bandasderock.com#Lindy_Goetz"/>
+        <www:Año_de_formacion rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1983</www:Año_de_formacion>
+        <www:Nombre>Red Hot Chilli Peppers</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Rickey_Charles_Goodrich -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Rickey_Charles_Goodrich">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Manager"/>
+        <www:Representante_De rdf:resource="http://www.bandasderock.com#Pearl_Jam"/>
+        <www:Fecha_de_nacimiento>15/7/1955</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Inglés</www:Nacionalidad>
+        <www:Nombre>Rickey Charles Goodrich</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Rit_Venerus -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Rit_Venerus">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Manager"/>
+        <www:Representante_De rdf:resource="http://www.bandasderock.com#Soundgarden"/>
+        <www:Fecha_de_nacimiento>6/6/1956</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Inglés</www:Nacionalidad>
+        <www:Nombre>Rit Venerus</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Saul_Hudson -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Saul_Hudson">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <owl:sameAs rdf:resource="http://www.bandasderock.com#Slash"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Guns_n_Roses"/>
+        <www:Fecha_de_nacimiento>7/9/1966</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Inglés</www:Nacionalidad>
+        <www:Nombre>Saul Hudson</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Sean_Kinney -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Sean_Kinney">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Alice_in_Chains"/>
+        <www:Fecha_de_nacimiento>18/5/1966</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Sean Kinney</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Serj_Tankian -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Serj_Tankian">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#System_of_a_Down"/>
+        <www:Fecha_de_nacimiento>8/4/1959</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Armenio</www:Nacionalidad>
+        <www:Nombre>Serj Tankian</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Shavo_Odadjian -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Shavo_Odadjian">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#System_of_a_Down"/>
+        <www:Fecha_de_nacimiento>7/4/1958</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Armenio</www:Nacionalidad>
+        <www:Nombre>Shavo Odadjian</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Slash -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Slash">
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Guns_n_Roses"/>
+        <www:Nacionalidad>Inglés</www:Nacionalidad>
+        <www:Nombre>Slash</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Soundgarden -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Soundgarden">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+        <www:Comercializada_Por rdf:resource="http://www.bandasderock.com#Sub_Pop"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Chris_Cornell"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Hiro_Yamamoto"/>
+        <www:Integrada_Por rdf:resource="http://www.bandasderock.com#Jason_Everman"/>
+        <www:Representada_Por rdf:resource="http://www.bandasderock.com#Rit_Venerus"/>
+        <www:Año_de_formacion rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1984</www:Año_de_formacion>
+        <www:Nombre>Soundgarden</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Stone_Gossard -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Stone_Gossard">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Miembro"/>
+        <www:Integrante_De rdf:resource="http://www.bandasderock.com#Pearl_Jam"/>
+        <www:Fecha_de_nacimiento>20/06/1966</www:Fecha_de_nacimiento>
+        <www:Nacionalidad>Estadounidense</www:Nacionalidad>
+        <www:Nombre>Stone Gossard</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Sub_Pop -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Sub_Pop">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Disquera"/>
+        <www:Comercializadora_De rdf:resource="http://www.bandasderock.com#Soundgarden"/>
+        <www:Nombre>Sub Pop</www:Nombre>
+        <www:Pagina_web>https://www.subpop.com/</www:Pagina_web>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#System_of_a_Down -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#System_of_a_Down">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Banda_de_rock"/>
+        <www:Comercializada_Por rdf:resource="http://www.bandasderock.com#Warner_Records"/>
+        <www:Año_de_formacion rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1994</www:Año_de_formacion>
+        <www:Nombre>System of a Down</www:Nombre>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bandasderock.com#Warner_Records -->
+
+    <owl:NamedIndividual rdf:about="http://www.bandasderock.com#Warner_Records">
+        <rdf:type rdf:resource="http://www.bandasderock.com#Disquera"/>
+        <www:Comercializadora_De rdf:resource="http://www.bandasderock.com#Red_Hot_Chili_Peppers"/>
+        <www:Nombre>Warner Records</www:Nombre>
+        <www:Pagina_web>https://www.warnerrecords.com/</www:Pagina_web>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+
