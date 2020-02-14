@@ -26,7 +26,7 @@ public class Sistema_Informacion_Web extends JFrame {
 	ButtonGroup vf;
 	
 	public Sistema_Informacion_Web() {
-		super("Sistema de información web");
+		super("Sistema de informaciÃ³n web");
 		panel = getContentPane();
 		panel.setLayout(new FlowLayout());
 		
@@ -36,11 +36,11 @@ public class Sistema_Informacion_Web extends JFrame {
 		
 		// Definicion del menu
 		JMenu menu1 = new JMenu("Archivo");
-		barraMenu.add(menu1); // Se añade el menu1 a la barraMenu
+		barraMenu.add(menu1); // Se aÃ±ade el menu1 a la barraMenu
 		
 		// Se adiciona un elemento de menu
 		JMenuItem salir = new JMenuItem("Salir del programa");
-		menu1.add(salir); // Se añade el elemento al menu1 (Archivo)
+		menu1.add(salir); // Se aÃ±ade el elemento al menu1 (Archivo)
 		// Inserta una linea de separacion en el menu1 (Archivo)
 		menu1.add(new JSeparator());
 		
@@ -49,7 +49,7 @@ public class Sistema_Informacion_Web extends JFrame {
 		
 		// Se adicionan dos elementos de menu para el JMenu abrir
 		JMenuItem opcion1 = new JMenuItem("Consulta de instancias");
-		opciones.add(opcion1); // Se añade el menu a las opciones
+		opciones.add(opcion1); // Se aÃ±ade el menu a las opciones
 		JMenuItem opcion2 = new JMenuItem("Instancia con igual valor de atributo");
 		opciones.add(opcion2); 
 		JMenuItem opcion3 = new JMenuItem("Estadisticas por atributo");
@@ -57,7 +57,7 @@ public class Sistema_Informacion_Web extends JFrame {
 		JMenuItem opcion4 = new JMenuItem("Relacion entre instancias");
 		opciones.add(opcion4); 
 		
-		// Se añade al submenu como elemento del menu
+		// Se aÃ±ade al submenu como elemento del menu
 		menu1.add(opciones);
 		
 		// Se asignan los oyentes para las opciones 1 y 2, queda pendiente el oyente para opciones
@@ -135,7 +135,7 @@ public class Sistema_Informacion_Web extends JFrame {
 			//System.out.println("----------------------");
 			
 			Ejecutar_Query(s);
-			RelacionesInstancias(s);
+			//RelacionesInstancias(s);
 		}
 
 	}
@@ -183,10 +183,10 @@ public class Sistema_Informacion_Web extends JFrame {
 				
 				String queryString = 
 						"PREFIX rock: <http://www.bandasderock.com#> " +
-						"SELECT ?nombre ?año WHERE { " +
+						"SELECT ?nombre ?aÃ±o WHERE { " +
 						"	?banda a rock:" + str +" . " +
 						"	?banda rock:Nombre ?nombre; " +
-						"		rock:Año_de_formacion ?año " +
+						"		rock:AÃ±o_de_formacion ?aÃ±o " +
 						"} ";
 				
 				/*// Probar string bien formada
@@ -196,22 +196,22 @@ public class Sistema_Informacion_Web extends JFrame {
 				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
 				
 				text_area1.setText("");
-				text_area1.setText("NOMBRE ------------ AÑO FORMACION\n");
+				text_area1.setText("NOMBRE ------------ AÃ‘O FORMACION\n");
 				
 				try {
 					ResultSet results = qexec.execSelect();
 					while (results.hasNext()) {
 						QuerySolution soln = results.nextSolution();
 						Literal nombre = soln.getLiteral("nombre");
-						Literal año = soln.getLiteral("año");
-						text_area1.append(nombre.getString() + " ------------ " + año.getInt() + "\n");
+						Literal aÃ±o = soln.getLiteral("aÃ±o");
+						text_area1.append(nombre.getString() + " ------------ " + aÃ±o.getInt() + "\n");
 					}
 				} finally {
 					qexec.close();
 				}
 				
 					label2 = new JLabel();
-					label2.setText("Filtrar año de formacion ");
+					label2.setText("Filtrar aÃ±o de formacion ");
 					panel.add(label2);
 					
 					mayor = new JRadioButton();
@@ -445,11 +445,11 @@ public class Sistema_Informacion_Web extends JFrame {
 			if (mayor.isSelected()) {
 				String queryString = 
 						"PREFIX rock: <http://www.bandasderock.com#> " +
-						"SELECT ?nombre ?año WHERE { " +
+						"SELECT ?nombre ?aÃ±o WHERE { " +
 						"	?banda a rock:Banda_de_rock . " +
 						"	?banda rock:Nombre ?nombre; " +
-						"		rock:Año_de_formacion ?año " +
-						"	FILTER (?año > " + text1.getText() + ") " +
+						"		rock:AÃ±o_de_formacion ?aÃ±o " +
+						"	FILTER (?aÃ±o > " + text1.getText() + ") " +
 						"} ";
 				
 				/*// Probar string bien formada
@@ -459,15 +459,15 @@ public class Sistema_Informacion_Web extends JFrame {
 				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
 				
 				text_area1.setText("");
-				text_area1.setText("NOMBRE ------------ AÑO FORMACION\n");
+				text_area1.setText("NOMBRE ------------ AÃ‘O FORMACION\n");
 				
 				try {
 					ResultSet results = qexec.execSelect();
 					while (results.hasNext()) {
 						QuerySolution soln = results.nextSolution();
 						Literal nombre = soln.getLiteral("nombre");
-						Literal año = soln.getLiteral("año");
-						text_area1.append(nombre.getString() + " ------------ " + año.getInt() + "\n");
+						Literal aÃ±o = soln.getLiteral("aÃ±o");
+						text_area1.append(nombre.getString() + " ------------ " + aÃ±o.getInt() + "\n");
 					}
 				} finally {
 					qexec.close();
@@ -476,11 +476,11 @@ public class Sistema_Informacion_Web extends JFrame {
 			if (menor.isSelected()) {
 				String queryString = 
 						"PREFIX rock: <http://www.bandasderock.com#> " +
-						"SELECT ?nombre ?año WHERE { " +
+						"SELECT ?nombre ?aÃ±o WHERE { " +
 						"	?banda a rock:Banda_de_rock . " +
 						"	?banda rock:Nombre ?nombre; " +
-						"		rock:Año_de_formacion ?año " +
-						"	FILTER (?año < " + text1.getText() + ") " +
+						"		rock:AÃ±o_de_formacion ?aÃ±o " +
+						"	FILTER (?aÃ±o < " + text1.getText() + ") " +
 						"} ";
 				
 				/*// Probar string bien formada
@@ -490,15 +490,15 @@ public class Sistema_Informacion_Web extends JFrame {
 				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
 				
 				text_area1.setText("");
-				text_area1.setText("NOMBRE ------------ AÑO FORMACION\n");
+				text_area1.setText("NOMBRE ------------ AÃ‘O FORMACION\n");
 				
 				try {
 					ResultSet results = qexec.execSelect();
 					while (results.hasNext()) {
 						QuerySolution soln = results.nextSolution();
 						Literal nombre = soln.getLiteral("nombre");
-						Literal año = soln.getLiteral("año");
-						text_area1.append(nombre.getString() + " ------------ " + año.getInt() + "\n");
+						Literal aÃ±o = soln.getLiteral("aÃ±o");
+						text_area1.append(nombre.getString() + " ------------ " + aÃ±o.getInt() + "\n");
 					}
 				} finally {
 					qexec.close();
