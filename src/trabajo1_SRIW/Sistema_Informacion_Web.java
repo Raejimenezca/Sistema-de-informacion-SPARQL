@@ -27,7 +27,7 @@ public class Sistema_Informacion_Web extends JFrame {
 	static ButtonGroup vf;
 	
 	public Sistema_Informacion_Web() {
-		super("Sistema de informaciÃ³n web");
+		super("Sistema de información web");
 		panel = getContentPane();
 		panel.setLayout(new FlowLayout());
 		
@@ -227,10 +227,10 @@ public class Sistema_Informacion_Web extends JFrame {
 				
 				String queryString = 
 						"PREFIX rock: <http://www.bandasderock.com#> " +
-						"SELECT ?nombre ?aÃ±o WHERE { " +
+						"SELECT ?nombre ?año WHERE { " +
 						"	?banda a rock:" + str +" . " +
 						"	?banda rock:Nombre ?nombre; " +
-						"		rock:AÃ±o_de_formacion ?aÃ±o " +
+						"		rock:Año_de_formacion ?año " +
 						"} ";
 				
 				/*// Probar string bien formada
@@ -240,27 +240,24 @@ public class Sistema_Informacion_Web extends JFrame {
 				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
 				
 				text_area1.setText("");
-<<<<<<< HEAD
-				text_area1.setText("INSTANCIAS DE 'Banda_de_rock'\n");
+				text_area1.setText("INSTANCIAS DE 'Banda_de_rock':\n");
 				text_area1.append("NOMBRE ------------ AÑO FORMACION\n");
-=======
-				text_area1.setText("NOMBRE ------------ AÃ‘O FORMACION\n");
->>>>>>> ada0e53a761d9f88b296cb36044f93c6b3e60040
+				text_area1.append("--------------------------------------------------------\n");
 				
 				try {
 					ResultSet results = qexec.execSelect();
 					while (results.hasNext()) {
 						QuerySolution soln = results.nextSolution();
 						Literal nombre = soln.getLiteral("nombre");
-						Literal aÃ±o = soln.getLiteral("aÃ±o");
-						text_area1.append(nombre.getString() + " ------------ " + aÃ±o.getInt() + "\n");
+						Literal año = soln.getLiteral("año");
+						text_area1.append(nombre.getString() + " ------------ " + año.getInt() + "\n");
 					}
 				} finally {
 					qexec.close();
 				}
 				
 					label2 = new JLabel();
-					label2.setText("Filtrar aÃ±o de formacion ");
+					label2.setText("Filtrar año de formacion ");
 					panel.add(label2);
 					
 					mayor = new JRadioButton();
@@ -333,8 +330,9 @@ public class Sistema_Informacion_Web extends JFrame {
 				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
 				
 				text_area1.setText("");
-				text_area1.setText("INSTANCIAS QUE SON INDIRECTO\n");
+				text_area1.setText("INSTANCIAS QUE SON INDIRECTO:\n");
 				text_area1.append("NOMBRE\n");
+				text_area1.append("---------------------------------------------------------\n");
 				
 				try {
 					ResultSet results = qexec.execSelect();
@@ -390,8 +388,9 @@ public class Sistema_Informacion_Web extends JFrame {
 				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
 				
 				text_area1.setText("");
-				text_area1.setText("INSTANCIAS DE 'Disquera'\n");
+				text_area1.setText("INSTANCIAS DE 'Disquera':\n");
 				text_area1.append("NOMBRE ------- PAGINA WEB ------- LOCALIZACION\n");
+				text_area1.append("------------------------------------------------------------------\n");
 			
 				try {
 					ResultSet results = qexec.execSelect();
@@ -469,12 +468,13 @@ public class Sistema_Informacion_Web extends JFrame {
 				
 				text_area1.setText("");
 				if (str == "Manager") {
-					text_area1.setText("INSTANCIAS DE 'Manager'\n");
+					text_area1.setText("INSTANCIAS DE 'Manager':\n");
 				}
 				if (str == "Miembro") {
-					text_area1.setText("INSTANCIAS DE 'Miembro'\n");
+					text_area1.setText("INSTANCIAS DE 'Miembro':\n");
 				}
 				text_area1.append("NOMBRE ------ FECHA NACIMIENTO ------ NACIONALIDAD\n");
+				text_area1.append("-----------------------------------------------------------------\n");
 				
 				try {
 					ResultSet results = qexec.execSelect();
@@ -533,6 +533,7 @@ public class Sistema_Informacion_Web extends JFrame {
 			text_area1.append("\n");
 			text_area1.append("RELACIONES CON OTRAS INSTANCIAS\n");
 			text_area1.append("RELACION ------------ INSTANCIA\n");
+			text_area1.append("---------------------------------------------------------\n");
 			
 			try {
 				ResultSet results2 = qexec2.execSelect();
@@ -570,11 +571,11 @@ public class Sistema_Informacion_Web extends JFrame {
 			if (mayor.isSelected()) {
 				String queryString = 
 						"PREFIX rock: <http://www.bandasderock.com#> " +
-						"SELECT ?nombre ?aÃ±o WHERE { " +
+						"SELECT ?nombre ?año WHERE { " +
 						"	?banda a rock:Banda_de_rock . " +
 						"	?banda rock:Nombre ?nombre; " +
-						"		rock:AÃ±o_de_formacion ?aÃ±o " +
-						"	FILTER (?aÃ±o > " + text1.getText() + ") " +
+						"		rock:Año_de_formacion ?año " +
+						"	FILTER (?año > " + text1.getText() + ") " +
 						"} ";
 				
 				/*// Probar string bien formada
@@ -584,15 +585,16 @@ public class Sistema_Informacion_Web extends JFrame {
 				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
 				
 				text_area1.setText("");
-				text_area1.setText("NOMBRE ------------ AÃ‘O FORMACION\n");
+				text_area1.setText("NOMBRE ------------ AÑO FORMACION\n");
+				text_area1.append("---------------------------------------------------------\n");
 				
 				try {
 					ResultSet results = qexec.execSelect();
 					while (results.hasNext()) {
 						QuerySolution soln = results.nextSolution();
 						Literal nombre = soln.getLiteral("nombre");
-						Literal aÃ±o = soln.getLiteral("aÃ±o");
-						text_area1.append(nombre.getString() + " ------------ " + aÃ±o.getInt() + "\n");
+						Literal año = soln.getLiteral("año");
+						text_area1.append(nombre.getString() + " ------------ " + año.getInt() + "\n");
 					}
 				} finally {
 					qexec.close();
@@ -601,11 +603,11 @@ public class Sistema_Informacion_Web extends JFrame {
 			if (menor.isSelected()) {
 				String queryString = 
 						"PREFIX rock: <http://www.bandasderock.com#> " +
-						"SELECT ?nombre ?aÃ±o WHERE { " +
+						"SELECT ?nombre ?año WHERE { " +
 						"	?banda a rock:Banda_de_rock . " +
 						"	?banda rock:Nombre ?nombre; " +
-						"		rock:AÃ±o_de_formacion ?aÃ±o " +
-						"	FILTER (?aÃ±o < " + text1.getText() + ") " +
+						"		rock:Año_de_formacion ?año " +
+						"	FILTER (?año < " + text1.getText() + ") " +
 						"} ";
 				
 				/*// Probar string bien formada
@@ -615,15 +617,16 @@ public class Sistema_Informacion_Web extends JFrame {
 				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
 				
 				text_area1.setText("");
-				text_area1.setText("NOMBRE ------------ AÃ‘O FORMACION\n");
+				text_area1.setText("NOMBRE ------------ AÑO FORMACION\n");
+				text_area1.append("-------------------------------------------------------\n");
 				
 				try {
 					ResultSet results = qexec.execSelect();
 					while (results.hasNext()) {
 						QuerySolution soln = results.nextSolution();
 						Literal nombre = soln.getLiteral("nombre");
-						Literal aÃ±o = soln.getLiteral("aÃ±o");
-						text_area1.append(nombre.getString() + " ------------ " + aÃ±o.getInt() + "\n");
+						Literal año = soln.getLiteral("año");
+						text_area1.append(nombre.getString() + " ------------ " + año.getInt() + "\n");
 					}
 				} finally {
 					qexec.close();
@@ -654,6 +657,7 @@ public class Sistema_Informacion_Web extends JFrame {
 			
 			text_area1.setText("");
 			text_area1.setText("NOMBRE ------- PAGINA WEB ------- LOCALIZACION\n");
+			text_area1.append("-----------------------------------------------------------\n");
 		
 			try {
 				ResultSet results = qexec.execSelect();
@@ -699,6 +703,7 @@ public class Sistema_Informacion_Web extends JFrame {
 			
 			text_area1.setText("");
 			text_area1.setText("NOMBRE ------ FECHA NACIMIENTO ------ NACIONALIDAD\n");
+			text_area1.append("---------------------------------------------------------------\n");
 			
 			try {
 				ResultSet results = qexec.execSelect();
@@ -738,6 +743,7 @@ public class Sistema_Informacion_Web extends JFrame {
 			
 			text_area1.setText("");
 			text_area1.setText("NOMBRE ------ FECHA NACIMIENTO ------ NACIONALIDAD\n");
+			text_area1.append("------------------------------------------------------------------\n");
 			
 			try {
 				ResultSet results = qexec.execSelect();
