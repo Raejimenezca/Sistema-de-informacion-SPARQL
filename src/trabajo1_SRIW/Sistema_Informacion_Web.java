@@ -135,7 +135,7 @@ public class Sistema_Informacion_Web extends JFrame {
 			//System.out.println("----------------------");
 			
 			Ejecutar_Query(s);
-			//RelacionesInstancias(s);
+			RelacionesInstancias(s);
 		}
 
 	}
