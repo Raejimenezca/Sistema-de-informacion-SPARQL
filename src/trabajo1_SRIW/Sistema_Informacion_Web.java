@@ -11,19 +11,20 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.util.FileManager;
 
 public class Sistema_Informacion_Web extends JFrame {
 
-	Container panel;
-	JComboBox cbx1;
-	JLabel label1, label2, label3, label4;
-	JTextField text1;
-	JTextArea text_area1;
-	JScrollPane scroll_tarea;
-	JRadioButton mayor, menor;
-	JButton boton_filtros;
-	ButtonGroup vf;
+	static Container panel;
+	static JComboBox cbx1, cbx2;
+	static JLabel label1, label2, label3, label4;
+	static JTextField text1;
+	static JTextArea text_area1;
+	static JScrollPane scroll_tarea;
+	static JRadioButton mayor, menor;
+	static JButton boton_filtros;
+	static ButtonGroup vf;
 	
 	public Sistema_Informacion_Web() {
 		super("Sistema de información web");
@@ -68,7 +69,7 @@ public class Sistema_Informacion_Web extends JFrame {
 		salir.addActionListener(new OyenteMenu());
 		
 		
-		setSize(1200, 600);
+		setSize(1400, 700);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -76,7 +77,7 @@ public class Sistema_Informacion_Web extends JFrame {
 	
 	public static void main(String[] args) {
 		
-		Sistema_Informacion_Web ventana = new Sistema_Informacion_Web();		
+		Sistema_Informacion_Web ventana = new Sistema_Informacion_Web();	
 
 	}
 	
@@ -84,9 +85,12 @@ public class Sistema_Informacion_Web extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			//Obtenemos la etiqueta del boton que se acciona
 			String comandoAccion = e.getActionCommand();
+			System.out.println(comandoAccion);
 			if (e.getSource() instanceof JMenuItem) {
 				if("Consulta de instancias".equals(comandoAccion)) {
-					panel.revalidate();
+					cbx1 = null;
+					cbx2 = null;
+					panel.removeAll();
 					if (cbx1 != null) {
 						
 					} else {
@@ -95,26 +99,62 @@ public class Sistema_Informacion_Web extends JFrame {
 						cbx1.addItem("Disquera");
 						cbx1.addItem("Manager");
 						cbx1.addItem("Miembro");
+						cbx1.addItem("Persona(Indirecto)");
 						cbx1.addItemListener(new OyenteItem());
 						panel.add(cbx1);
-						text_area1 = new JTextArea(5, 20);
+						text_area1 = new JTextArea(20, 50);
 						text_area1.setText("");
 						scroll_tarea = new JScrollPane(text_area1);
-						panel.add(text_area1);
+						scroll_tarea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
+						scroll_tarea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);  
 						panel.add(scroll_tarea);
 					}
+					
+					panel.revalidate();
+					panel.repaint();
 				}		
 				else if("Instancia con igual valor de atributo".equals(comandoAccion)) {
+					cbx1 = null;
+					cbx2 = null;
 					panel.removeAll();
-					System.out.println("Opcion2");
+					System.out.println("Opcion2");	
+					panel.revalidate();
+					panel.repaint();
 				}
 				else if("Estadisticas por atributo".equals(comandoAccion)) {
+					cbx1 = null;
+					cbx2 = null;
 					panel.removeAll();
-					System.out.println("Opcion3");
+					
+					if (cbx2 != null) {
+						
+					} else {
+						cbx2 = new JComboBox();
+						cbx2.addItem("Banda_de_rock");
+						cbx2.addItem("Disquera");
+						cbx2.addItem("Manager");
+						cbx2.addItem("Miembro");
+						cbx2.addItem("Persona");
+						cbx2.addItemListener(new OyenteItem2());
+						panel.add(cbx2);
+						text_area1 = new JTextArea(20, 50);
+						text_area1.setText("");
+						scroll_tarea = new JScrollPane(text_area1);
+						scroll_tarea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
+						scroll_tarea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);  
+						panel.add(scroll_tarea);
+					}
+					
+					panel.revalidate();
+					panel.repaint();
 				}
 				else if("Relacion entre instancias".equals(comandoAccion)) {
+					cbx1 = null;
+					cbx2 = null;
 					panel.removeAll();
 					System.out.println("Opcion4");
+					panel.revalidate();
+					panel.repaint();
 				}
 				else if("Salir del programa".equals(comandoAccion)) {
 					System.exit(0);
@@ -135,7 +175,11 @@ public class Sistema_Informacion_Web extends JFrame {
 			//System.out.println("----------------------");
 			
 			Ejecutar_Query(s);
-			RelacionesInstancias(s);
+			if (s.equals("Persona(Indirecto)")) {
+				
+			}else {
+				RelacionesInstancias(s);
+			}			
 		}
 
 	}
@@ -196,7 +240,12 @@ public class Sistema_Informacion_Web extends JFrame {
 				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
 				
 				text_area1.setText("");
+<<<<<<< HEAD
+				text_area1.setText("INSTANCIAS DE 'Banda_de_rock'\n");
+				text_area1.append("NOMBRE ------------ A�O FORMACION\n");
+=======
 				text_area1.setText("NOMBRE ------------ AÑO FORMACION\n");
+>>>>>>> ada0e53a761d9f88b296cb36044f93c6b3e60040
 				
 				try {
 					ResultSet results = qexec.execSelect();
@@ -237,6 +286,66 @@ public class Sistema_Informacion_Web extends JFrame {
 					boton_filtros.setText("Filtrar");
 					boton_filtros.addActionListener(new OyenteBoton1());
 					panel.add(boton_filtros);
+			}
+			else if (str.equals("Persona(Indirecto)")) {
+				
+				if(label3 != null) {
+					panel.remove(label3);
+				}
+				if(label4 != null) {
+					panel.remove(label4);
+				}
+				if(label1 != null) {
+					panel.remove(label1);
+				}
+				if(label2 != null) {
+					panel.remove(label2);
+				}
+				if (mayor != null) {
+					panel.remove(mayor);
+				}
+				if (menor!= null) {
+					panel.remove(menor);
+				}
+				if (text1 != null) {
+					panel.remove(text1);
+				}
+				if (boton_filtros != null) {
+					panel.remove(boton_filtros);
+				}
+				
+				
+				String queryString = 
+						"PREFIX rock: <http://www.bandasderock.com#> " +
+						"PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
+						"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
+						"SELECT ?nombre WHERE { " +
+						"	?class a owl:Class . " +
+						"	?class rdfs:subClassOf rock:Persona . " +
+						"	?persona a ?class; " +
+						"		rock:Nombre ?nombre " +
+						"} ";
+				
+				/*// Probar string bien formada
+				System.out.println(queryString);*/
+				
+				Query query = QueryFactory.create(queryString); // Crear un objeto para consulta
+				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
+				
+				text_area1.setText("");
+				text_area1.setText("INSTANCIAS QUE SON INDIRECTO\n");
+				text_area1.append("NOMBRE\n");
+				
+				try {
+					ResultSet results = qexec.execSelect();
+					while (results.hasNext()) {
+						QuerySolution soln = results.nextSolution();
+						Literal nombre = soln.getLiteral("nombre");
+						text_area1.append(nombre.getString() + "\n");
+					}
+				} finally {
+					qexec.close();
+				}
 			}
 			else if (str.equals("Disquera")) {
 				
@@ -281,7 +390,8 @@ public class Sistema_Informacion_Web extends JFrame {
 				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
 				
 				text_area1.setText("");
-				text_area1.setText("NOMBRE ------- PAGINA WEB ------- LOCALIZACION\n");
+				text_area1.setText("INSTANCIAS DE 'Disquera'\n");
+				text_area1.append("NOMBRE ------- PAGINA WEB ------- LOCALIZACION\n");
 			
 				try {
 					ResultSet results = qexec.execSelect();
@@ -358,7 +468,13 @@ public class Sistema_Informacion_Web extends JFrame {
 				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
 				
 				text_area1.setText("");
-				text_area1.setText("NOMBRE ------ FECHA NACIMIENTO ------ NACIONALIDAD\n");
+				if (str == "Manager") {
+					text_area1.setText("INSTANCIAS DE 'Manager'\n");
+				}
+				if (str == "Miembro") {
+					text_area1.setText("INSTANCIAS DE 'Miembro'\n");
+				}
+				text_area1.append("NOMBRE ------ FECHA NACIMIENTO ------ NACIONALIDAD\n");
 				
 				try {
 					ResultSet results = qexec.execSelect();
@@ -395,7 +511,7 @@ public class Sistema_Informacion_Web extends JFrame {
 		
 		// RELACIONES ENTRE INSTANCIAS
 
-		private void RelacionesInstancias(String st) {
+		private static void RelacionesInstancias(String st) {
 			
 			FileManager.get().addLocatorClassLoader(Sistema_Informacion_Web.class.getClassLoader());
 			Model model = FileManager.get().loadModel("src/bandas.owl");
@@ -422,11 +538,20 @@ public class Sistema_Informacion_Web extends JFrame {
 				ResultSet results2 = qexec2.execSelect();
 				while (results2.hasNext()) {
 					QuerySolution soln = results2.nextSolution();
-					Literal relacion = soln.getLiteral("relacion");
-					Literal instancia = soln.getLiteral("instanciar");
+					Resource relacion = soln.getResource("relacion");
+					//Literal relacion = soln.getLiteral("relacion");				
+					
+					try {
+						Literal instancia = soln.getLiteral("instanciar");
+						text_area1.append(relacion.getURI().toString() + " ------------ " + instancia.getString() + "\n");
+					} catch (ClassCastException cce) {
+						Resource instancia = soln.getResource("instanciar");
+						text_area1.append(relacion.getURI().toString() + " ------------ " + instancia.getURI().toString() + "\n");
+					}
+					
 					//System.out.println(relacion.getString());
 					//System.out.println(instancia.getString());
-					text_area1.append(relacion.getString() + " ------------ " + instancia.getString() + "\n");
+					
 				}
 			} finally {
 				qexec2.close();
