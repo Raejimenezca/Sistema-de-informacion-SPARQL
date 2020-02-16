@@ -18,12 +18,12 @@ public class Sistema_Informacion_Web extends JFrame {
 
 	static Container panel;
 	static JComboBox cbx1, cbx2;
-	static JLabel label1, label2, label3, label4;
-	static JTextField text1;
-	static JTextArea text_area1, text_area2;
+	static JLabel label1, label2, label3, label4, labelI5, labelI6;
+	static JTextField text1, textI2, textI3;
+	static JTextArea text_area1, text_area2, text_area3;
 	static JScrollPane scroll_tarea;
 	static JRadioButton mayor, menor;
-	static JButton boton_filtros, boton_stat;
+	static JButton boton_filtros, boton_stat, boton_igualatr;
 	static ButtonGroup vf, group;
 	static JPanel panel2;
 	static JRadioButton nombre_banda = null;
@@ -128,7 +128,35 @@ public class Sistema_Informacion_Web extends JFrame {
 					cbx1 = null;
 					cbx2 = null;
 					panel.removeAll();
-					System.out.println("Opcion2");	
+					
+					labelI5 = new JLabel();
+					labelI5.setText("Instancia de la entidad(Reemplazar espacios por '_'): ");
+					panel.add(labelI5);
+					
+					textI2 = new JTextField();
+					textI2.setText("Michael_Peter_Balzary");
+					panel.add(textI2);
+					
+					labelI6 = new JLabel();
+					labelI6.setText("Atributo común: ");
+					panel.add(labelI6);
+					
+					textI3 = new JTextField();
+					textI3.setText("Estadounidense");
+					panel.add(textI3);
+					
+					boton_igualatr = new JButton();
+					boton_igualatr.setText("Buscar");
+					boton_igualatr.addActionListener(new OyenteBotonIgualatr());
+					panel.add(boton_igualatr);
+					
+					text_area3 = new JTextArea(20, 50);
+					text_area3.setText("");
+					scroll_tarea = new JScrollPane(text_area3);
+					scroll_tarea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
+					scroll_tarea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+					panel.add(scroll_tarea);
+					
 					panel.revalidate();
 					panel.repaint();
 				}
@@ -292,7 +320,10 @@ public class Sistema_Informacion_Web extends JFrame {
 				panel2.add(boton_stat);
 				text_area2 = new JTextArea(20, 50);
 				text_area2.setText("");
-				panel2.add(text_area2);
+				scroll_tarea = new JScrollPane(text_area2);
+				scroll_tarea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
+				scroll_tarea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+				panel2.add(scroll_tarea);
 				
 				panel2.revalidate();
 				panel2.repaint();
@@ -329,7 +360,10 @@ public class Sistema_Informacion_Web extends JFrame {
 				
 				text_area2 = new JTextArea(20, 50);
 				text_area2.setText("");
-				panel2.add(text_area2);
+				scroll_tarea = new JScrollPane(text_area2);
+				scroll_tarea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
+				scroll_tarea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+				panel2.add(scroll_tarea);
 				
 				panel2.revalidate();
 				panel2.repaint();
@@ -365,7 +399,10 @@ public class Sistema_Informacion_Web extends JFrame {
 				
 				text_area2 = new JTextArea(20, 50);
 				text_area2.setText("");
-				panel2.add(text_area2);
+				scroll_tarea = new JScrollPane(text_area2);
+				scroll_tarea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
+				scroll_tarea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+				panel2.add(scroll_tarea);
 				
 				panel2.revalidate();
 				panel2.repaint();
@@ -402,7 +439,10 @@ public class Sistema_Informacion_Web extends JFrame {
 				
 				text_area2 = new JTextArea(20, 50);
 				text_area2.setText("");
-				panel2.add(text_area2);
+				scroll_tarea = new JScrollPane(text_area2);
+				scroll_tarea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
+				scroll_tarea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+				panel2.add(scroll_tarea);
 				
 				panel2.revalidate();
 				panel2.repaint();
@@ -438,7 +478,10 @@ public class Sistema_Informacion_Web extends JFrame {
 				
 				text_area2 = new JTextArea(20, 50);
 				text_area2.setText("");
-				panel2.add(text_area2);
+				scroll_tarea = new JScrollPane(text_area2);
+				scroll_tarea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
+				scroll_tarea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+				panel2.add(scroll_tarea);
 				
 				panel2.revalidate();
 				panel2.repaint();
@@ -1109,4 +1152,57 @@ public class Sistema_Informacion_Web extends JFrame {
 		}
 	}
 	
+class OyenteBotonIgualatr implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			FileManager.get().addLocatorClassLoader(Sistema_Informacion_Web.class.getClassLoader());
+			Model model = FileManager.get().loadModel("src/bandas.owl");
+			
+			/*// Probar que el modelo carga ok
+			model.write(System.out);*/
+			
+			
+			// String de la consulta
+		
+			String queryString = 
+					"PREFIX rock: <http://www.bandasderock.com#> " +
+					"PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
+					"SELECT DISTINCT ?entidad ?instancia2 ?atributo WHERE { " +
+					"	?entidad a owl:Class . " +
+					"	?instancia a ?entidad . " +
+					"	?instancia2 a ?entidad FILTER(?instancia != ?instancia2) . " +
+					"	?datatype a owl:DatatypeProperty . " +
+					" 	?instancia ?datatype ?atributo . " +
+					"	?instancia2 ?datatype ?atributo . " +
+					"} ";
+			
+			/*// Probar string bien formada
+			System.out.println(queryString);*/
+			
+			Query query = QueryFactory.create(queryString); // Crear un objeto para consulta
+			QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
+			
+			text_area3.setText("Instancias que tienen el mismo valor en el atributo '"+ textI3.getText() + "' que la instancia '" + textI2.getText() + "':\n");
+			text_area3.append("INSTANCIA\n");
+			text_area3.append("--------------------------------------------------------\n");
+			
+			try {
+				ResultSet results = qexec.execSelect();
+				while (results.hasNext()) {
+					QuerySolution soln = results.nextSolution();
+					Resource instancia = soln.getResource("instancia2");
+					Literal atr = soln.getLiteral("atributo");
+					
+					//System.out.println(atr.getURI().toString());
+					
+					if (atr.getString().equals(textI3.getText())) {
+						text_area3.append(instancia.getURI().toString() + "\n");
+					}
+				}
+			} finally {
+				qexec.close();
+			}
+		}
+	}
 }
