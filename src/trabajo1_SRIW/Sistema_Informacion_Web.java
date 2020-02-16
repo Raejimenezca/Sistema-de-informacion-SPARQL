@@ -20,11 +20,20 @@ public class Sistema_Informacion_Web extends JFrame {
 	static JComboBox cbx1, cbx2;
 	static JLabel label1, label2, label3, label4;
 	static JTextField text1;
-	static JTextArea text_area1;
+	static JTextArea text_area1, text_area2;
 	static JScrollPane scroll_tarea;
 	static JRadioButton mayor, menor;
-	static JButton boton_filtros;
-	static ButtonGroup vf;
+	static JButton boton_filtros, boton_stat;
+	static ButtonGroup vf, group;
+	static JPanel panel2;
+	static JRadioButton nombre_banda = null;
+	static JRadioButton año_banda = null;
+	static JRadioButton nombre_disq = null;
+	static JRadioButton pagina_web = null;
+	static JRadioButton localizacion = null;
+	static JRadioButton fecha_nac = null;
+	static JRadioButton nacionalidad = null;
+	static JRadioButton nombre = null;
 	
 	public Sistema_Informacion_Web() {
 		super("Sistema de información web");
@@ -75,17 +84,19 @@ public class Sistema_Informacion_Web extends JFrame {
 		
 	}
 	
+	// Creacion de la ventana
 	public static void main(String[] args) {
 		
 		Sistema_Informacion_Web ventana = new Sistema_Informacion_Web();	
 
 	}
 	
+	// Oyente para el menu superior
 	class OyenteMenu implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			//Obtenemos la etiqueta del boton que se acciona
 			String comandoAccion = e.getActionCommand();
-			System.out.println(comandoAccion);
+			//System.out.println(comandoAccion);
 			if (e.getSource() instanceof JMenuItem) {
 				if("Consulta de instancias".equals(comandoAccion)) {
 					cbx1 = null;
@@ -137,13 +148,12 @@ public class Sistema_Informacion_Web extends JFrame {
 						cbx2.addItem("Persona");
 						cbx2.addItemListener(new OyenteItem2());
 						panel.add(cbx2);
-						text_area1 = new JTextArea(20, 50);
-						text_area1.setText("");
-						scroll_tarea = new JScrollPane(text_area1);
-						scroll_tarea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
-						scroll_tarea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);  
-						panel.add(scroll_tarea);
 					}
+					
+					panel2 = new JPanel();
+					panel2.setSize(400, 200);
+					panel2.setVisible(true);
+					panel.add(panel2);
 					
 					panel.revalidate();
 					panel.repaint();
@@ -165,7 +175,7 @@ public class Sistema_Informacion_Web extends JFrame {
 		}
 	}
 	
-	
+	// Oyente para los Items del Combobox
 	class OyenteItem implements ItemListener {
 		
 		// Este metodo se llama solamente si ha sido seleccionado un nuevo item
@@ -174,16 +184,269 @@ public class Sistema_Informacion_Web extends JFrame {
 			//System.out.println(s);
 			//System.out.println("----------------------");
 			
+			// Query principal de entidades con sus atributos
 			Ejecutar_Query(s);
+			
 			if (s.equals("Persona(Indirecto)")) {
 				
 			}else {
+				// Relaciones entre las instancias
 				RelacionesInstancias(s);
-			}			
+				
+				// Instancias equivalentes
+				InstanciasEquivalentes(s);
+			}
+			
+			
+			
 		}
 
 	}
+
+		// INSTANCIAS EQUIVALENTES
+		private void InstanciasEquivalentes(String s) {
+			
+			FileManager.get().addLocatorClassLoader(Sistema_Informacion_Web.class.getClassLoader());
+			Model model = FileManager.get().loadModel("src/bandas.owl");
+			
+			/*// Probar que el modelo carga ok
+			model.write(System.out);*/
+			
+			
+			// String de la consulta
+		
+			String queryString = 
+					"PREFIX rock: <http://www.bandasderock.com#> " +
+					"PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
+					"SELECT ?instancia ?sameAs WHERE { " +
+					"	?instancia owl:sameAs ?sameAs; " +
+					"	a rock:" + s + " " +
+					"} ";
+			
+			/*// Probar string bien formada
+			System.out.println(queryString);*/
+			
+			Query query = QueryFactory.create(queryString); // Crear un objeto para consulta
+			QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
+			
+			text_area1.append("\n");
+			text_area1.append("INSTANCIAS EQUIVALENTES\n");
+			text_area1.append("INSTANCIA ------------ EQUIVALENCIA\n");
+			text_area1.append("--------------------------------------------------------\n");
+			
+			try {
+				ResultSet results = qexec.execSelect();
+				while (results.hasNext()) {
+					QuerySolution soln = results.nextSolution();
+					Resource instancia = soln.getResource("instancia");
+					Resource sameas = soln.getResource("sameAs");
+					text_area1.append(instancia.getURI().toString() + " ------------ " + sameas.getURI().toString() + "\n");
+				}
+			} finally {
+				qexec.close();
+			}
+	}
 }
+	
+	public class OyenteItem2 implements ItemListener {
+
+		@Override
+		// Este metodo se llama solamente si ha sido seleccionado un nuevo item
+				public void itemStateChanged(ItemEvent ie) {{
+					String s = (String) ie.getItem();
+					//System.out.println(s);
+					//System.out.println("----------------------");
+					
+					OpcionesAtributos(s);
+					
+					
+				}
+
+			}
+		
+		// QUERY PARA LAS ESTADISTICAS
+		private void OpcionesAtributos(String s) {
+			
+			if (s == "Banda_de_rock") {
+				
+				panel2.removeAll();		
+				
+				nombre_banda = new JRadioButton();
+				año_banda = new JRadioButton();
+				año_banda.setText("Año_de_formacion");
+				nombre_banda.setText("Nombre");
+				año_banda.setActionCommand("Año_de_formacion");
+				nombre_banda.setActionCommand("Nombre");
+				nombre_banda.setSelected(true);
+				
+				group = new ButtonGroup();
+				group.add(nombre_banda);
+				group.add(año_banda);
+				
+				panel2.add(nombre_banda);
+				panel2.add(año_banda);
+				
+				boton_stat = new JButton();
+				boton_stat.setText("Contar");
+				boton_stat.addActionListener(new OyenteBotonStat());
+				panel2.add(boton_stat);
+				text_area2 = new JTextArea(20, 50);
+				text_area2.setText("");
+				panel2.add(text_area2);
+				
+				panel2.revalidate();
+				panel2.repaint();
+				
+			}
+			else if (s == "Disquera") {
+				
+				panel2.removeAll();
+				
+				nombre_disq = new JRadioButton();
+				pagina_web = new JRadioButton();
+				localizacion = new JRadioButton();
+				nombre_disq.setText("Nombre");
+				pagina_web.setText("Pagina_web");
+				localizacion.setText("Localizacion");
+				nombre_disq.setActionCommand("Nombre");
+				pagina_web.setActionCommand("Pagina_web");
+				localizacion.setActionCommand("Localizacion");
+				nombre_disq.setSelected(true);
+				
+				group = new ButtonGroup();
+				group.add(nombre_disq);
+				group.add(pagina_web);
+				group.add(localizacion);
+				
+				panel2.add(nombre_disq);
+				panel2.add(pagina_web);
+				panel2.add(localizacion);
+				
+				boton_stat = new JButton();
+				boton_stat.setText("Contar");
+				boton_stat.addActionListener(new OyenteBotonStat());
+				panel2.add(boton_stat);
+				
+				text_area2 = new JTextArea(20, 50);
+				text_area2.setText("");
+				panel2.add(text_area2);
+				
+				panel2.revalidate();
+				panel2.repaint();
+			}
+			else if (s == "Persona") {
+
+				panel2.removeAll();
+				
+				fecha_nac = new JRadioButton();
+				nacionalidad = new JRadioButton();
+				nombre = new JRadioButton();
+				fecha_nac.setText("Fecha_de_nacimiento");
+				nacionalidad.setText("Nacionalidad");
+				nombre.setText("Nombre");
+				fecha_nac.setActionCommand("Fecha_de_nacimiento");
+				nacionalidad.setActionCommand("Nacionalidad");
+				nombre.setActionCommand("Nombre");
+				nombre.setSelected(true);
+				
+				group = new ButtonGroup();
+				group.add(fecha_nac);
+				group.add(nacionalidad);
+				group.add(nombre);
+				
+				panel2.add(fecha_nac);
+				panel2.add(nacionalidad);
+				panel2.add(nombre);
+				
+				boton_stat = new JButton();
+				boton_stat.setText("Contar");
+				boton_stat.addActionListener(new OyenteBotonStat());
+				panel2.add(boton_stat);
+				
+				text_area2 = new JTextArea(20, 50);
+				text_area2.setText("");
+				panel2.add(text_area2);
+				
+				panel2.revalidate();
+				panel2.repaint();
+				
+			} 
+			else if (s == "Manager") {
+				
+				panel2.removeAll();
+				
+				fecha_nac = new JRadioButton();
+				nacionalidad = new JRadioButton();
+				nombre = new JRadioButton();
+				fecha_nac.setText("Fecha_de_nacimiento");
+				nacionalidad.setText("Nacionalidad");
+				nombre.setText("Nombre");
+				fecha_nac.setActionCommand("Fecha_de_nacimiento");
+				nacionalidad.setActionCommand("Nacionalidad");
+				nombre.setActionCommand("Nombre");
+				nombre.setSelected(true);
+				
+				group = new ButtonGroup();
+				group.add(fecha_nac);
+				group.add(nacionalidad);
+				group.add(nombre);
+				
+				panel2.add(fecha_nac);
+				panel2.add(nacionalidad);
+				panel2.add(nombre);
+				
+				boton_stat = new JButton();
+				boton_stat.setText("Contar");
+				boton_stat.addActionListener(new OyenteBotonStat());
+				panel2.add(boton_stat);
+				
+				text_area2 = new JTextArea(20, 50);
+				text_area2.setText("");
+				panel2.add(text_area2);
+				
+				panel2.revalidate();
+				panel2.repaint();
+				
+			} else {
+
+				panel2.removeAll();
+								
+				fecha_nac = new JRadioButton();
+				nacionalidad = new JRadioButton();
+				nombre = new JRadioButton();
+				fecha_nac.setText("Fecha_de_nacimiento");
+				nacionalidad.setText("Nacionalidad");
+				nombre.setText("Nombre");
+				fecha_nac.setActionCommand("Fecha_de_nacimiento");
+				nacionalidad.setActionCommand("Nacionalidad");
+				nombre.setActionCommand("Nombre");
+				nombre.setSelected(true);
+				
+				group = new ButtonGroup();
+				group.add(fecha_nac);
+				group.add(nacionalidad);
+				group.add(nombre);
+				
+				panel2.add(fecha_nac);
+				panel2.add(nacionalidad);
+				panel2.add(nombre);
+				
+				boton_stat = new JButton();
+				boton_stat.setText("Contar");
+				boton_stat.addActionListener(new OyenteBotonStat());
+				panel2.add(boton_stat);
+				
+				text_area2 = new JTextArea(20, 50);
+				text_area2.setText("");
+				panel2.add(text_area2);
+				
+				panel2.revalidate();
+				panel2.repaint();
+				
+			}		
+		}
+
+	}
 		
 		// CONSULTA DE INSTANCIAS Y FILTROS
 		
@@ -525,7 +788,7 @@ public class Sistema_Informacion_Web extends JFrame {
 					"} ";
 			
 			// Probar string bien formada
-			System.out.println(queryString2);
+			//System.out.println(queryString2);
 			
 			Query query2 = QueryFactory.create(queryString2); // Crear un objeto para consulta
 			QueryExecution qexec2 = QueryExecutionFactory.create(query2, model); // Ejecutar la consulta SPARQL
@@ -721,6 +984,7 @@ public class Sistema_Informacion_Web extends JFrame {
 	}
 	
 	class OyenteBoton4 implements ActionListener {
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
@@ -757,6 +1021,91 @@ public class Sistema_Informacion_Web extends JFrame {
 			} finally {
 				qexec.close();
 			}
+		}
+	}
+	
+	// Oyente para la query de las estadisticas de los atributos 
+	class OyenteBotonStat implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			FileManager.get().addLocatorClassLoader(Sistema_Informacion_Web.class.getClassLoader());
+			Model model = FileManager.get().loadModel("src/bandas.owl");
+			
+			// Mirar Seleccion
+			//System.out.println("Seleccion: " + group.getSelection().getActionCommand());
+			
+			String queryString = 
+					"PREFIX rock: <http://www.bandasderock.com#> " +
+					"PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
+					"SELECT DISTINCT ?atr (COUNT(DISTINCT ?instance) AS ?num_inst) WHERE { " +
+					"	?class a owl:Class . " +
+					"	?instance a ?class . " +
+					"	?atr a owl:DatatypeProperty . " +
+					"	?instance ?atr ?valor  " +
+					"} " +
+					"GROUP BY (?atr) ";
+			
+			// Probar string bien formada
+			//System.out.println(queryString);
+			
+			Query query = QueryFactory.create(queryString); // Crear un objeto para consulta
+			QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
+			
+			text_area2.setText("");
+			text_area2.setText("ATRIBUTO SELECCIONADO ------ NUMERO DE INSTANCIAS\n");
+			text_area2.append("---------------------------------------------------------------\n");
+			
+			try {
+				ResultSet results = qexec.execSelect();
+				while (results.hasNext()) {
+					QuerySolution soln = results.nextSolution();
+					Resource atr = soln.getResource("atr");
+					Literal num_inst = soln.getLiteral("num_inst");
+					
+					//System.out.println("Seleccion Nombre: " + group.getSelection().getActionCommand().equals("Nombre"));
+					//System.out.println("Seleccion Año: " + group.getSelection().getActionCommand().equals("Año_de_formacion"));
+					
+					
+					if (group.getSelection().getActionCommand().equals("Nombre")) {
+						if (atr.getURI().toString().equals("http://www.bandasderock.com#Nombre")) {
+							text_area2.append(atr.getURI().toString() + " ------ " + num_inst.getString() + "\n");
+						}
+					}
+					if (group.getSelection().getActionCommand().equals("Año_de_formacion")) {
+						if (atr.getURI().toString().equals("http://www.bandasderock.com#Año_de_formacion")) {
+							text_area2.append(atr.getURI().toString() + " ------ " + num_inst.getString() + "\n");
+						}
+					}
+					if (group.getSelection().getActionCommand().equals("Pagina_web")) {
+						if (atr.getURI().toString().equals("http://www.bandasderock.com#Pagina_web")) {
+							text_area2.append(atr.getURI().toString() + " ------ " + num_inst.getString() + "\n");
+						}
+					}
+					if (group.getSelection().getActionCommand().equals("Localizacion")) {
+						if (atr.getURI().toString().equals("http://www.bandasderock.com#Localizacion")) {
+							text_area2.append(atr.getURI().toString() + " ------ " + num_inst.getString() + "\n");
+						}
+					}
+					if (group.getSelection().getActionCommand().equals("Nacionalidad")) {
+						if (atr.getURI().toString().equals("http://www.bandasderock.com#Nacionalidad")) {
+							text_area2.append(atr.getURI().toString() + " ------ " + num_inst.getString() + "\n");
+						}
+					}
+					if (group.getSelection().getActionCommand().equals("Fecha_de_nacimiento")) {
+						if (atr.getURI().toString().equals("http://www.bandasderock.com#Fecha_de_nacimiento")) {
+							text_area2.append(atr.getURI().toString() + " ------ " + num_inst.getString() + "\n");
+						}
+					}
+					
+					//text_area2.append(atr.getURI().toString() + " ------ " + num_inst.getString() + "\n");
+					
+				}
+			} finally {
+				qexec.close();
+			}
+			
 		}
 	}
 	
