@@ -3,6 +3,9 @@ package trabajo1_SRIW;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -18,14 +21,15 @@ public class Sistema_Informacion_Web extends JFrame {
 
 	static Container panel;
 	static JComboBox cbx1, cbx2;
-	static JLabel label1, label2, label3, label4, labelI5, labelI6;
-	static JTextField text1, textI2, textI3;
-	static JTextArea text_area1, text_area2, text_area3;
+	static JLabel label1, label2, label3, label4, labelI5, labelI6, labelR7, labelR8, labelR9, labelR10;
+	static JTextField text1, textI2, textI3, textR4, textR5, textR6, textR7;
+	static JTextArea text_area1, text_area2, text_area3, text_area4;
 	static JScrollPane scroll_tarea;
 	static JRadioButton mayor, menor;
-	static JButton boton_filtros, boton_stat, boton_igualatr;
+	static JButton boton_filtros, boton_stat, boton_igualatr, boton_relaciones;
 	static ButtonGroup vf, group;
 	static JPanel panel2;
+	static JCheckBox indirecto;
 	static JRadioButton nombre_banda = null;
 	static JRadioButton año_banda = null;
 	static JRadioButton nombre_disq = null;
@@ -190,7 +194,54 @@ public class Sistema_Informacion_Web extends JFrame {
 					cbx1 = null;
 					cbx2 = null;
 					panel.removeAll();
-					System.out.println("Opcion4");
+					
+					labelR7 = new JLabel();
+					labelR7.setText("Entidad1: ");
+					panel.add(labelR7);
+					
+					textR4 = new JTextField();
+					textR4.setText("Miembro");
+					panel.add(textR4);
+					
+					labelR8 = new JLabel();
+					labelR8.setText("Instancia1: ");
+					panel.add(labelR8);
+					
+					textR5 = new JTextField();
+					textR5.setText("Serj Tankian");
+					panel.add(textR5);
+					
+					labelR9 = new JLabel();
+					labelR9.setText("Entidad2: ");
+					panel.add(labelR9);
+					
+					textR6 = new JTextField();
+					textR6.setText("Banda_de_rock");
+					panel.add(textR6);
+					
+					labelR10 = new JLabel();
+					labelR10.setText("Instancia2: ");
+					panel.add(labelR10);
+					
+					textR7 = new JTextField();
+					textR7.setText("System");
+					panel.add(textR7);
+					
+					indirecto = new JCheckBox("Indirecto");
+					panel.add(indirecto);
+					
+					boton_relaciones = new JButton();
+					boton_relaciones.setText("Buscar");
+					boton_relaciones.addActionListener(new OyenteBotonRelaciones());
+					panel.add(boton_relaciones);
+					
+					text_area4 = new JTextArea(20, 50);
+					text_area4.setText("");
+					scroll_tarea = new JScrollPane(text_area4);
+					scroll_tarea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
+					scroll_tarea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+					panel.add(scroll_tarea);
+					
 					panel.revalidate();
 					panel.repaint();
 				}
@@ -1070,6 +1121,9 @@ public class Sistema_Informacion_Web extends JFrame {
 	// Oyente para la query de las estadisticas de los atributos 
 	class OyenteBotonStat implements ActionListener{
 		
+		HashMap<String, String> cadenas;
+		ArrayList<Integer> tamaños_cadenas_nombre, tamaños_cadenas_local, tamaños_cadenas_web, tamaños_cadenas_fecha, tamaños_cadenas_nacional;
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
@@ -1079,6 +1133,7 @@ public class Sistema_Informacion_Web extends JFrame {
 			// Mirar Seleccion
 			//System.out.println("Seleccion: " + group.getSelection().getActionCommand());
 			
+			// Query para traer un conteo de las instancias que tienen valor en el mismo atributo que la dada
 			String queryString = 
 					"PREFIX rock: <http://www.bandasderock.com#> " +
 					"PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
@@ -1089,6 +1144,30 @@ public class Sistema_Informacion_Web extends JFrame {
 					"	?instance ?atr ?valor  " +
 					"} " +
 					"GROUP BY (?atr) ";
+			
+			
+			// Query para sacar el min, max y avg de los atributos que sean numericos
+			String queryString2 = 
+					"PREFIX rock: <http://www.bandasderock.com#> " + 
+					"PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
+					"SELECT DISTINCT (AVG(?valor) AS ?avg) (MIN(?valor) AS ?min) (MAX(?valor) AS ?max) ?atr WHERE { " + 
+					"	?class a owl:Class . " +
+					"	?instance a ?class . " + 
+					"	?atr a owl:DatatypeProperty . " +
+					"	?instance ?atr ?valor " +
+					"}" +
+					"GROUP BY (?atr) ";
+			
+			// Query para sacar las cadenas 
+			String queryString3 = 
+					"PREFIX rock: <http://www.bandasderock.com#> " + 
+					"PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
+					"SELECT DISTINCT ?atr ?instance ?valor WHERE { " + 
+					"	?class a owl:Class . " +
+					"	?instance a ?class . " + 
+					"	?atr a owl:DatatypeProperty . " +
+					"	?instance ?atr ?valor " +
+					"}";
 			
 			// Probar string bien formada
 			//System.out.println(queryString);
@@ -1149,10 +1228,212 @@ public class Sistema_Informacion_Web extends JFrame {
 				qexec.close();
 			}
 			
+			Query query2 = QueryFactory.create(queryString2); // Crear un objeto para consulta
+			QueryExecution qexec2 = QueryExecutionFactory.create(query2, model); // Ejecutar la consulta SPARQL
+			
+			try {
+				ResultSet results = qexec2.execSelect();
+				while (results.hasNext()) {
+					QuerySolution soln = results.nextSolution();
+					Literal avg = soln.getLiteral("avg");
+					Literal min = soln.getLiteral("min");
+					Literal max = soln.getLiteral("max");
+					
+					if (isInteger(min.getString()) && group.getSelection().getActionCommand().equals("Año_de_formacion")) {
+						text_area2.append("\n");
+						text_area2.append("ESTADISTICAS\n");
+						text_area2.append("---------------------------------------------------------------\n");
+						text_area2.append("Mínimo: " + min.getString() + "\nMáximo: " + max.getString() + "\nPromedio: " + Math.round(Float.parseFloat(avg.getString())) + "\n");
+					}
+				}
+			} finally {
+				qexec2.close();
+			}
+			
+			Query query3 = QueryFactory.create(queryString3); // Crear un objeto para consulta
+			QueryExecution qexec3 = QueryExecutionFactory.create(query3, model); // Ejecutar la consulta SPARQL
+			
+			
+			try {
+				
+				ResultSet results = qexec3.execSelect();
+				cadenas = new HashMap<String, String>();
+				tamaños_cadenas_nombre = new ArrayList<Integer>();
+				tamaños_cadenas_local = new ArrayList<Integer>();
+				tamaños_cadenas_nacional = new ArrayList<Integer>();
+				tamaños_cadenas_fecha = new ArrayList<Integer>();
+				tamaños_cadenas_web = new ArrayList<Integer>();
+				
+				while (results.hasNext()) {
+					QuerySolution soln = results.nextSolution();
+					Resource atr = soln.getResource("atr");
+					Literal cadena = soln.getLiteral("valor");
+					
+					if (atr.getURI().toString().equals("Año_de_formacion")) {
+						
+					}else {
+						cadenas.put(atr.getURI().toString(), cadena.getString());
+					}	
+				}
+				
+				if (group.getSelection().getActionCommand().equals("Nombre")) {
+					
+					// Recorrer el hash, filtrando por atributo
+					for (String key : cadenas.keySet()) {
+						System.out.println(key);
+						if (key.equals("http://www.bandasderock.com#Nombre")) {
+							int tamaño = key.length();
+							tamaños_cadenas_nombre.add(tamaño);
+						}
+					}
+					text_area2.append("\n");
+					text_area2.append("PROMEDIO DEL TAMAÑO DE LAS CADENAS\n");
+					text_area2.append("---------------------------------------------------------------\n");
+					text_area2.append("Promedio de tamaño: " + CalcularPromedio(tamaños_cadenas_nombre));
+				}
+				if (group.getSelection().getActionCommand().equals("Fecha_de_nacimiento")) {
+					// Recorrer el hash, filtrando por atributo
+					for (String key : cadenas.keySet()) {
+						System.out.println(key);
+						if (key.equals("http://www.bandasderock.com#Fecha_de_nacimiento")) {
+							int tamaño = key.length();
+							tamaños_cadenas_fecha.add(tamaño);
+						}
+					}
+					text_area2.append("\n");
+					text_area2.append("PROMEDIO DEL TAMAÑO DE LAS CADENAS\n");
+					text_area2.append("---------------------------------------------------------------\n");
+					text_area2.append("Promedio de tamaño: " + CalcularPromedio(tamaños_cadenas_fecha));
+				}
+				if (group.getSelection().getActionCommand().equals("Nacionalidad")) {
+					// Recorrer el hash, filtrando por atributo
+					for (String key : cadenas.keySet()) {
+						System.out.println(key);
+						if (key.equals("http://www.bandasderock.com#Nacionalidad")) {
+							int tamaño = key.length();
+							tamaños_cadenas_nacional.add(tamaño);
+						}
+					}
+					System.out.println(tamaños_cadenas_nacional);
+					text_area2.append("\n");
+					text_area2.append("PROMEDIO DEL TAMAÑO DE LAS CADENAS\n");
+					text_area2.append("---------------------------------------------------------------\n");
+					text_area2.append("Promedio de tamaño: " + CalcularPromedio(tamaños_cadenas_nacional));
+				}
+				if (group.getSelection().getActionCommand().equals("Pagina_web")) {
+					// Recorrer el hash, filtrando por atributo
+					for (String key : cadenas.keySet()) {
+						System.out.println(key);
+						if (key.equals("http://www.bandasderock.com#Pagina_web")) {
+							int tamaño = key.length();
+							tamaños_cadenas_web.add(tamaño);
+						}
+					}
+					System.out.println(tamaños_cadenas_web);
+					text_area2.append("\n");
+					text_area2.append("PROMEDIO DEL TAMAÑO DE LAS CADENAS\n");
+					text_area2.append("---------------------------------------------------------------\n");
+					text_area2.append("Promedio de tamaño: " + CalcularPromedio(tamaños_cadenas_web));
+				}
+				if (group.getSelection().getActionCommand().equals("Localizacion")) {
+					// Recorrer el hash, filtrando por atributo
+					for (String key : cadenas.keySet()) {
+						System.out.println(key);
+						if (key.equals("http://www.bandasderock.com#Localizacion")) {
+							int tamaño = key.length();
+							tamaños_cadenas_local.add(tamaño);
+						}
+					}
+					System.out.println(tamaños_cadenas_local);
+					text_area2.append("\n");
+					text_area2.append("PROMEDIO DEL TAMAÑO DE LAS CADENAS\n");
+					text_area2.append("---------------------------------------------------------------\n");
+					text_area2.append("Promedio de tamaño: " + CalcularPromedio(tamaños_cadenas_local));
+				}
+				
+			} finally {
+				qexec3.close();
+			}
+			
+		}
+		
+		private int CalcularPromedio(ArrayList<Integer> tamaños_cadenas2) {
+			
+			int suma = 0;
+			
+			for (int i = 0; i < tamaños_cadenas2.size(); i ++) {
+				//System.out.println(i + " " + tamaños_cadenas2.get(i) + cadenas.get(i));
+				suma = suma + tamaños_cadenas2.get(i);
+			}
+			
+			return suma/(tamaños_cadenas2.size());
+		}
+
+		public boolean isInteger(String numero){
+		    try{
+		        Integer.parseInt(numero);
+		        return true;
+		    }catch(NumberFormatException e){
+		        return false;
+		    }
 		}
 	}
 	
-class OyenteBotonIgualatr implements ActionListener{
+	class OyenteBotonIgualatr implements ActionListener{
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				FileManager.get().addLocatorClassLoader(Sistema_Informacion_Web.class.getClassLoader());
+				Model model = FileManager.get().loadModel("src/bandas.owl");
+				
+				/*// Probar que el modelo carga ok
+				model.write(System.out);*/
+				
+				
+				// String de la consulta
+			
+				String queryString = 
+						"PREFIX rock: <http://www.bandasderock.com#> " +
+						"PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
+						"SELECT DISTINCT ?entidad ?instancia2 ?atributo WHERE { " +
+						"	?entidad a owl:Class . " +
+						"	?instancia a ?entidad . " +
+						"	?instancia2 a ?entidad FILTER(?instancia != ?instancia2) . " +
+						"	?datatype a owl:DatatypeProperty . " +
+						" 	?instancia ?datatype ?atributo . " +
+						"	?instancia2 ?datatype ?atributo . " +
+						"} ";
+				
+				/*// Probar string bien formada
+				System.out.println(queryString);*/
+				
+				Query query = QueryFactory.create(queryString); // Crear un objeto para consulta
+				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
+				
+				text_area3.setText("Instancias que tienen el mismo valor en el atributo '"+ textI3.getText() + "' que la instancia '" + textI2.getText() + "':\n");
+				text_area3.append("INSTANCIA\n");
+				text_area3.append("--------------------------------------------------------\n");
+				
+				try {
+					ResultSet results = qexec.execSelect();
+					while (results.hasNext()) {
+						QuerySolution soln = results.nextSolution();
+						Resource instancia = soln.getResource("instancia2");
+						Literal atr = soln.getLiteral("atributo");
+						
+						//System.out.println(atr.getURI().toString());
+						
+						if (atr.getString().equals(textI3.getText())) {
+							text_area3.append(instancia.getURI().toString() + "\n");
+						}
+					}
+				} finally {
+					qexec.close();
+				}
+			}
+		}
+
+	class OyenteBotonRelaciones implements ActionListener{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -1162,47 +1443,114 @@ class OyenteBotonIgualatr implements ActionListener{
 			/*// Probar que el modelo carga ok
 			model.write(System.out);*/
 			
-			
 			// String de la consulta
-		
-			String queryString = 
-					"PREFIX rock: <http://www.bandasderock.com#> " +
-					"PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
-					"SELECT DISTINCT ?entidad ?instancia2 ?atributo WHERE { " +
-					"	?entidad a owl:Class . " +
-					"	?instancia a ?entidad . " +
-					"	?instancia2 a ?entidad FILTER(?instancia != ?instancia2) . " +
-					"	?datatype a owl:DatatypeProperty . " +
-					" 	?instancia ?datatype ?atributo . " +
-					"	?instancia2 ?datatype ?atributo . " +
-					"} ";
 			
-			/*// Probar string bien formada
-			System.out.println(queryString);*/
-			
-			Query query = QueryFactory.create(queryString); // Crear un objeto para consulta
-			QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
-			
-			text_area3.setText("Instancias que tienen el mismo valor en el atributo '"+ textI3.getText() + "' que la instancia '" + textI2.getText() + "':\n");
-			text_area3.append("INSTANCIA\n");
-			text_area3.append("--------------------------------------------------------\n");
-			
-			try {
-				ResultSet results = qexec.execSelect();
-				while (results.hasNext()) {
-					QuerySolution soln = results.nextSolution();
-					Resource instancia = soln.getResource("instancia2");
-					Literal atr = soln.getLiteral("atributo");
-					
-					//System.out.println(atr.getURI().toString());
-					
-					if (atr.getString().equals(textI3.getText())) {
-						text_area3.append(instancia.getURI().toString() + "\n");
-					}
-				}
-			} finally {
+			// check state
+			if (indirecto.isSelected()) {
+			 
+				String queryString = 
+						"PREFIX bandas: <http://www.bandasderock.com#> \n" +
+						"PREFIX owl: <http://www.w3.org/2002/07/owl#> \n" +
+						"ASK WHERE { \n" +
+						"	{ \n" +
+						"	?entidad a owl:Class . " +
+						" 	?instancia a ?entidad . " +
+						" 	?instancia1 a bandas:" + textR6.getText() + " . \n" +
+						"	?instancia1 bandas:Nombre ?nombre1 FILTER REGEX(?nombre1, \"" + textR7.getText() + "\") . \n" +
+						"	?instancia2 a bandas:" + textR4.getText() + " . " +
+						"	?instancia2 bandas:Nombre ?nombre2 FILTER REGEX(?nombre2, \"" + textR5.getText() + "\") . \n" +
+						"	?property1 a owl:ObjectProperty . \n" +
+						" 	?instancia1 ?property1 ?instancia . \n" +
+						" 	?property2 a owl:ObjectProperty . \n" +
+						" 	?instancia2 ?property2 ?instancia . \n" +
+						"	} \n" +
+						"	UNION \n" +
+						" 	{ \n" +
+						"	?entidad a owl:Class . " +
+						" 	?instancia a ?entidad . " +
+						" 	?instancia1 a bandas:" + textR6.getText() +  ". \n" +
+						" 	?instancia1 bandas:Nombre ?nombre1 FILTER REGEX(?nombre1, \"" + textR7.getText() + "\") . \n" +
+						" 	?instancia2 a bandas:" + textR4.getText() + ". \n" +
+						" 	?instancia2 bandas:Nombre ?nombre2 FILTER REGEX(?nombre2, \"" + textR5.getText() + "\") . \n" +
+						" 	?property1 a owl:ObjectProperty . \n" +
+						"	?instancia1 ?property1 ?instancia . \n" +
+						" 	?property2 a owl:ObjectProperty . \n" +
+						" 	?instancia ?property2 ?instancia2 . \n" +
+						"  	} \n" +
+						"} \n";
+				
+				// Probar string bien formada
+				System.out.println(queryString);
+				
+				Query query = QueryFactory.create(queryString); // Crear un objeto para consulta
+				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
+				
+				boolean result = qexec.execAsk();
 				qexec.close();
+				
+				System.out.println(result);
+				
+				if (result == true) {
+					text_area4.setText("");
+					text_area4.append("RESPUESTA:\n");
+					text_area4.append("Si hay relación !");
+				}
+				if (result == false) {
+					text_area4.setText("");
+					text_area4.append("RESPUESTA:\n");
+					text_area4.append("No hay relación !");
+				}
+			 
+			} else {
+			 
+				String queryString = 
+						"PREFIX bandas: <http://www.bandasderock.com#> \n" +
+						"PREFIX owl: <http://www.w3.org/2002/07/owl#> \n" +
+						"ASK WHERE { \n" +
+						"	{ \n" +
+						" 	?instancia1 a bandas:" + textR6.getText() + " . \n" +
+						"	?instancia1 bandas:Nombre ?nombre1 FILTER REGEX(?nombre1, \"" + textR7.getText() + "\") . \n" +
+						"	?instancia2 a bandas:" + textR4.getText() + " . " +
+						"	?instancia2 bandas:Nombre ?nombre2 FILTER REGEX(?nombre2, \"" + textR5.getText() + "\") . \n" +
+						"	?property a owl:ObjectProperty . \n" +
+						" 	?instancia1 ?property ?instancia2 . \n" +
+						"	} \n" +
+						"	UNION \n" +
+						" 	{ \n" +
+						" 	?instancia1 a bandas:" + textR6.getText() +  ". \n" +
+						" 	?instancia1 bandas:Nombre ?nombre1 FILTER REGEX(?nombre1, \"" + textR7.getText() + "\") . \n" +
+						" 	?instancia2 a bandas:" + textR4.getText() + ". \n" +
+						" 	?instancia2 bandas:Nombre ?nombre2 FILTER REGEX(?nombre2, \"" + textR5.getText() + "\") . \n" +
+						" 	?property a owl:ObjectProperty . \n" +
+						" 	?instancia2 ?property ?instancia1 \n" +
+						"  	} \n" +
+						"} \n";
+				
+				// Probar string bien formada
+				//System.out.println(queryString);
+				
+				Query query = QueryFactory.create(queryString); // Crear un objeto para consulta
+				QueryExecution qexec = QueryExecutionFactory.create(query, model); // Ejecutar la consulta SPARQL
+				
+				boolean result = qexec.execAsk();
+				qexec.close();
+				
+				System.out.println(result);
+				
+				if (result == true) {
+					text_area4.setText("");
+					text_area4.append("RESPUESTA:\n");
+					text_area4.append("Si hay relación !");
+				}
+				if (result == false) {
+					text_area4.setText("");
+					text_area4.append("RESPUESTA:\n");
+					text_area4.append("No hay relación !");
+				}
+			 
 			}
+		
+			
 		}
 	}
 }
